@@ -1,0 +1,93 @@
+
+
+.name{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 30px;
+    color: black;
+    background-color: aqua;
+    padding: 15px;
+    margin: 15px;
+    border: 7px solid black;
+    border-radius: 100px;
+    font-family: "Arial";
+}
+
+.var{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 30px;
+    font-family: "Arial";
+}
+
+.line{
+    vertical-align: top;
+    display: inline-block;
+}
+
+.line1{
+    vertical-align: top;
+    display: inline-block;
+}
+
+
+.myCanvas{
+    cursor: pointer;
+}
+
+
+.inviz{
+    display: none;
+}
+
+
+
+
+
+table{
+    border: 1px;
+    width: 600px;
+    margin-left: 50px;
+}
+
+#maintable{
+    border: 1px solid black;
+}
+
+
+
+#R1{
+    position: absolute;
+    font-size: 40px;
+    top: 360px;
+    left: 400px;
+}
+
+#R2{
+    position: absolute;
+    font-size: 40px;
+    top: 360px;
+    left: 310px;
+}
+
+#R3{
+    position: absolute;
+    font-size: 40px;
+    top: 170px;
+    left: 210px;
+}
+
+
+#R4{
+    position: absolute;
+    font-size: 40px;
+    top: 250px;
+    left: 180px;
+}
+
+.R{
+    display: none;
+}
+
+

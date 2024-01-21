@@ -1,0 +1,12 @@
+.name{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 30px;
+    color: black;
+    background-color: aqua;
+    padding: 15px;
+    margin: 15px;
+    border: 7px solid black;
+    border-radius: 100px;
+    font-family: "Arial";
+}
