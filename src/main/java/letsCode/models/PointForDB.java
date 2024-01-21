@@ -2,10 +2,14 @@
 package letsCode.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "points")
-public class PointForDB {
+@AllArgsConstructor
+public class PointForDB implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @Id
@@ -17,6 +21,10 @@ public class PointForDB {
     private String y;
     @Column(name = "r")
     private String r;
+
+    public PointForDB() {
+
+    }
 
 
     public String getX() {

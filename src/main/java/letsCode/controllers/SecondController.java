@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @CrossOrigin
 public class SecondController {
 
-    @GetMapping("/exit")
+    @GetMapping("/badexit")
     public String exit(){
         return "second/exit";
     }

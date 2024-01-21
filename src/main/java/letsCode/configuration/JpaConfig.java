@@ -21,7 +21,7 @@ import java.util.Objects;
 @EnableJpaRepositories("letsCode")
 @EnableTransactionManagement
 @PropertySource("classpath:jpaConfig.properties")
-public class JPAConfig {
+public class JpaConfig {
 
     @Autowired
     private Environment env;

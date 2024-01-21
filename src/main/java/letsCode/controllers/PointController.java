@@ -54,9 +54,15 @@ public class PointController {
     }
      */
 
+
     @PostMapping("/add")
     @CrossOrigin
     public ResponseEntity<?> add(@RequestBody PointTest pointTest, HttpServletRequest httpServletRequest){
+        PointForDB pointForDB = new PointForDB(1, "10", "20", "30");
+        //Role role = new Role();
+        //role.setId(1);
+        //role.setName("Hello");
+
         long t1 = System.nanoTime();
         PointCreater pointCreater = new PointCreater();
         pointCreater.createPoint(pointTest, t1);
