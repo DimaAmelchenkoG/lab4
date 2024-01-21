@@ -4,7 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 //import letsCode.dao.PointDAO;
 import letsCode.dao.PointDAO;
 import letsCode.dao.UserDAO;
+import letsCode.dto.PointRequestDTO;
 import letsCode.models.*;
+import letsCode.services.PointService;
+import letsCode.services.TableService;
+import org.hibernate.annotations.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +25,34 @@ public class PointController {
     private final UserDAO userDAO;
 
 
+    private final TableService tableService;
+
+
     @Autowired
-    public PointController(PointDAO pointDAO, UserDAO userDAO){
+    public PointController(PointDAO pointDAO, UserDAO userDAO, TableService tableService){
         this.pointDAO = pointDAO;
         this.userDAO = userDAO;
+        this.tableService = tableService;
     }
 
+
+    @GetMapping("/all")
+    public ResponseEntity<?> all(HttpServletRequest servletRequest){
+        System.out.println("ADD DOT");
+        return tableService.getAllResults(servletRequest);
+    }
+
+    @PostMapping("addDot")
+    public ResponseEntity<?> addPointToTable(@RequestBody PointRequestDTO requestDTO, HttpServletRequest servletRequest){
+        System.out.println("ADD DOT");
+        return tableService.addPointToTable(requestDTO, servletRequest);
+    }
+
+    @PostMapping("/cleanTable")
+    public ResponseEntity<?> deleteDots(HttpServletRequest servletRequest){
+        System.out.println("CLEAN");
+        return tableService.deleteDots(servletRequest);
+    }
 
     @GetMapping()
     public String index(Model model){

@@ -1,12 +1,35 @@
 package letsCode.models;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "points")
 public class PointTest {
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    @Id
     private long id;
+
+    @Column
+    private long user_id;
+
+    @Column
     private String x;
+
+    @Column
     private String y;
+
+    @Column
     private String r;
+
+    @Column
     private String target;
+
+    @Column
     private String timeNow;
+
+    @Column
     private String programTime;
 
 
@@ -16,6 +39,15 @@ public class PointTest {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+
+    public long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
     }
 
     public String getX() {

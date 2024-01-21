@@ -1,6 +1,5 @@
 package letsCode.dao;
 
-import letsCode.models.Point;
 import letsCode.models.PointTest;
 import org.springframework.stereotype.Component;
 

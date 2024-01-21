@@ -1,3 +1,4 @@
+
 package letsCode.models;
 
 public class Point {

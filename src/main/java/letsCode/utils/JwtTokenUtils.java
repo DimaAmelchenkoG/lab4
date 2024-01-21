@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.persistence.Column;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.GrantedAuthority;
@@ -66,6 +68,17 @@ public class JwtTokenUtils {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public String getToken(HttpServletRequest request){
+        String token = null;
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies){
+            if("Token".equals(cookie.getName())){
+                token = cookie.getValue();
+            }
+        }
+        return token;
     }
 }
 

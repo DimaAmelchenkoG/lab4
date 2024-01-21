@@ -2,14 +2,19 @@
 package letsCode.controllers;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import letsCode.errors.AppError;
+import letsCode.models.PointEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import letsCode.dto.UserRequestDTO;
 import letsCode.services.AuthService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -34,9 +39,18 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserRequestDTO request, HttpServletResponse response){
+    public ResponseEntity<?> login(@RequestBody UserRequestDTO request, HttpServletRequest httpServletRequest, HttpServletResponse response){
         System.out.println("login");
-        return authService.login(request, response);
+        List<PointEntity> list = new ArrayList<>();
+        PointEntity point = new PointEntity();
+        point.setX(1);
+        point.setY(2);
+        point.setR(3);
+        list.add(point);
+        list.add(point);
+        //return new ResponseEntity<>(list, HttpStatus.OK);
+
+        return authService.login(request, httpServletRequest, response);
     }
 
     @PostMapping("/exit")
