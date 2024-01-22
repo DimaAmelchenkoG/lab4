@@ -1,14 +1,9 @@
 package letsCode.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
-//import letsCode.dao.PointDAO;
-import letsCode.dao.PointDAO;
-import letsCode.dao.UserDAO;
-import letsCode.dto.PointRequestDTO;
+import letsCode.otherModels.RequestPoint;
 import letsCode.models.*;
-import letsCode.services.PointService;
 import letsCode.services.TableService;
-import org.hibernate.annotations.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class PointController {
 
-    private final PointDAO pointDAO;
-    private final UserDAO userDAO;
 
 
     private final TableService tableService;
 
 
     @Autowired
-    public PointController(PointDAO pointDAO, UserDAO userDAO, TableService tableService){
-        this.pointDAO = pointDAO;
-        this.userDAO = userDAO;
+    public PointController(TableService tableService){
         this.tableService = tableService;
     }
 
@@ -42,8 +33,8 @@ public class PointController {
         return tableService.getAllResults(servletRequest);
     }
 
-    @PostMapping("addDot")
-    public ResponseEntity<?> addPointToTable(@RequestBody PointRequestDTO requestDTO, HttpServletRequest servletRequest){
+    @PostMapping("addPoint")
+    public ResponseEntity<?> addPointToTable(@RequestBody RequestPoint requestDTO, HttpServletRequest servletRequest){
         System.out.println("ADD DOT");
         return tableService.addPointToTable(requestDTO, servletRequest);
     }
@@ -57,8 +48,8 @@ public class PointController {
     @GetMapping()
     public String index(Model model){
         System.out.println("INDEX");
-        model.addAttribute("points", pointDAO.index());
-        model.addAttribute("point", new Point());
+        model.addAttribute("points");
+        model.addAttribute("point");
         return "mypoints/test";
     }
 
@@ -85,27 +76,19 @@ public class PointController {
     @CrossOrigin
     public ResponseEntity<?> add(@RequestBody PointTest pointTest, HttpServletRequest httpServletRequest){
         PointForDB pointForDB = new PointForDB(1, "10", "20", "30");
-        //Role role = new Role();
-        //role.setId(1);
-        //role.setName("Hello");
 
         long t1 = System.nanoTime();
         PointCreater pointCreater = new PointCreater();
         pointCreater.createPoint(pointTest, t1);
         System.out.println(pointTest.toString());
         System.out.println("Add new");
-        pointDAO.save(pointTest);
-        pointDAO.print();
-        return new ResponseEntity<>(pointDAO.index(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/reg")
     @CrossOrigin
-    public ResponseEntity<?> reg(@RequestBody UserTest userTest, HttpServletRequest httpServletRequest){
-        System.out.println("REG");
-        userTest.setStatus("УРАААААА");
-        userDAO.save(userTest);
-        return new ResponseEntity<>(userDAO.index(), HttpStatus.OK);
+    public ResponseEntity<?> reg(HttpServletRequest httpServletRequest){
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**@GetMapping("/new")
@@ -131,7 +114,6 @@ public class PointController {
     @CrossOrigin
     public  ResponseEntity<?> clean(){
         System.out.println("DELETE");
-        pointDAO.delete();
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

@@ -52,7 +52,7 @@ public class MyFilter extends OncePerRequestFilter {
             try {
                 userName = jwtTokenUtils.getUserName(jwtToken);
             }catch (ExpiredJwtException ex) {
-                log.debug("Token lifetime has expired");
+                log.debug("End of token");
             }
 
             if(userName!=null && SecurityContextHolder.getContext().getAuthentication() == null){

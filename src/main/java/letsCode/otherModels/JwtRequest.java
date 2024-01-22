@@ -1,4 +1,4 @@
-package letsCode.dto;
+package letsCode.otherModels;
 
 
 import lombok.Data;

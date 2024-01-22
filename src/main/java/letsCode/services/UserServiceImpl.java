@@ -57,18 +57,6 @@ public class UserServiceImpl implements UserDetailsService, MyUserService {
     public letsCode.models.User getUserByLogin(String userName){
         return userRepository.findByUsername(userName).get();
     }
-    /**
-    @Transactional
-    public boolean findByLoginAndPassword(String userName, String password){
-        try {
-            userRepository.getByUserNameAndPassword(userName, password);
-        }catch (NoSuchElementException ex){
-            return false;
-        }
-        System.out.println("wtf");
-        return true;
-    }
-     */
 
     @Transactional
     @Override

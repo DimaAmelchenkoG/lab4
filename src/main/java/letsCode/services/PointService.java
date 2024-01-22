@@ -1,14 +1,13 @@
 package letsCode.services;
 
 
-import letsCode.errors.AppError;
-import letsCode.models.PointEntity;
+import letsCode.errors.ErrorMessage;
+import letsCode.models.MyPoint;
 import letsCode.repositories.PointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 @Service
@@ -24,12 +23,12 @@ public class PointService {
 
 
     @Transactional
-    public List<PointEntity> getResults(Long userId){
+    public List<MyPoint> getResults(Long userId){
         return pointRepository.getAllByUserId(userId);
     }
 
     @Transactional
-    public void addPointsResultToDB(PointEntity results, Long userId){
+    public void addPointsResultToDB(MyPoint results, Long userId){
         results.setUserId(userId);
         pointRepository.save(results);
     }
@@ -41,7 +40,7 @@ public class PointService {
             return countDelete;
         }
 
-        return new AppError(500, "Warn, failed to delete results").getStatus();
+        return new ErrorMessage(500, "Warn, failed to delete results").getStatus();
     }
 
 }

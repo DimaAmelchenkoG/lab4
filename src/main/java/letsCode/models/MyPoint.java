@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "pointTable")
-public class PointEntity implements Serializable {
+@Table(name = "tableOfPoints")
+public class MyPoint implements Serializable {
 
     @GeneratedValue
     @Column
@@ -18,9 +18,9 @@ public class PointEntity implements Serializable {
     private long userId;
 
     @Column
-    private double x;
+    private String x;
     @Column
-    private double y;
+    private String y;
     @Column
     private double r;
     @Column(name = "local_date_time")
@@ -47,19 +47,19 @@ public class PointEntity implements Serializable {
         this.userId = userId;
     }
 
-    public double getX() {
+    public String getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(String x) {
         this.x = x;
     }
 
-    public double getY() {
+    public String getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(String y) {
         this.y = y;
     }
 
@@ -95,13 +95,13 @@ public class PointEntity implements Serializable {
         this.result = result;
     }
 
-    public PointEntity(){}
+    public MyPoint(){}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PointEntity that = (PointEntity) o;
-        return id == that.id && userId == that.userId && Double.compare(x, that.x) == 0 && Double.compare(y, that.y) == 0 && Double.compare(r, that.r) == 0 && executionTime == that.executionTime && result == that.result && Objects.equals(currentTime, that.currentTime);
+        MyPoint that = (MyPoint) o;
+        return id == that.id && userId == that.userId && Objects.equals(x, that.x) && Objects.equals(y, that.y) && Double.compare(r, that.r) == 0 && executionTime == that.executionTime && result == that.result && Objects.equals(currentTime, that.currentTime);
     }
 
     @Override

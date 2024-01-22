@@ -4,13 +4,11 @@ package letsCode.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import letsCode.errors.AppError;
-import letsCode.models.PointEntity;
+import letsCode.models.MyPoint;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import letsCode.dto.UserRequestDTO;
+import letsCode.otherModels.requestUser;
 import letsCode.services.AuthService;
 
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserRequestDTO request, HttpServletResponse response){
+    public ResponseEntity<?> register(@RequestBody requestUser request, HttpServletResponse response){
         System.out.println("REGISTER");
         //return new ResponseEntity<>(2, HttpStatus.OK);
         return authService.register(request, response);
@@ -39,12 +37,12 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserRequestDTO request, HttpServletRequest httpServletRequest, HttpServletResponse response){
+    public ResponseEntity<?> login(@RequestBody requestUser request, HttpServletRequest httpServletRequest, HttpServletResponse response){
         System.out.println("login");
-        List<PointEntity> list = new ArrayList<>();
-        PointEntity point = new PointEntity();
-        point.setX(1);
-        point.setY(2);
+        List<MyPoint> list = new ArrayList<>();
+        MyPoint point = new MyPoint();
+        point.setX("1");
+        point.setY("2");
         point.setR(3);
         list.add(point);
         list.add(point);

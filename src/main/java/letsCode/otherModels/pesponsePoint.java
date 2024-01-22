@@ -1,10 +1,10 @@
-package letsCode.dto;
+package letsCode.otherModels;
 
 import java.util.Objects;
 
-public class PointResponseDTO {
-    private double x;
-    private double y;
+public class pesponsePoint {
+    private String x;
+    private String y;
     private double r;
     private String currentTime;
 
@@ -12,8 +12,8 @@ public class PointResponseDTO {
 
     private boolean result;
 
-    public PointResponseDTO(){}
-    public PointResponseDTO(double x, double y, double r, String currentTime, long executionTime, boolean result) {
+    public pesponsePoint(){}
+    public pesponsePoint(String x, String y, double r, String currentTime, long executionTime, boolean result) {
         this.x = x;
         this.y = y;
         this.r = r;
@@ -23,19 +23,19 @@ public class PointResponseDTO {
     }
 
 
-    public double getX() {
+    public String getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(String x) {
         this.x = x;
     }
 
-    public double getY() {
+    public String getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(String y) {
         this.y = y;
     }
 
@@ -75,8 +75,8 @@ public class PointResponseDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PointResponseDTO that = (PointResponseDTO) o;
-        return Double.compare(x, that.x) == 0 && Double.compare(y, that.y) == 0 && Double.compare(r, that.r) == 0 && executionTime == that.executionTime && result == that.result && Objects.equals(currentTime, that.currentTime);
+        pesponsePoint that = (pesponsePoint) o;
+        return Objects.equals(x, that.x) && Objects.equals(y, that.y) && Double.compare(r, that.r) == 0 && executionTime == that.executionTime && result == that.result && Objects.equals(currentTime, that.currentTime);
     }
 
     @Override

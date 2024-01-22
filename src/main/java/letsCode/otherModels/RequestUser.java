@@ -1,20 +1,20 @@
-package letsCode.dto;
+package letsCode.otherModels;
 
 
 import java.util.Objects;
 
-public class UserRequestDTO {
+public class requestUser {
 
     private String userName;
 
     private String password;
 
-    public UserRequestDTO(String userName, String password) {
+    public requestUser(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
 
-    public UserRequestDTO() {
+    public requestUser() {
     }
 
     public String getUserName() {
@@ -37,7 +37,7 @@ public class UserRequestDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserRequestDTO that = (UserRequestDTO) o;
+        requestUser that = (requestUser) o;
         return Objects.equals(userName, that.userName) && Objects.equals(password, that.password);
     }
 

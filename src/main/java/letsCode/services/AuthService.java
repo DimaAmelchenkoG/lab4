@@ -4,8 +4,8 @@ package letsCode.services;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import letsCode.dto.PointResponseDTO;
-import letsCode.models.PointEntity;
+import letsCode.otherModels.pesponsePoint;
+import letsCode.models.MyPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import letsCode.utils.JwtTokenUtils;
 import letsCode.models.User;
-import letsCode.dto.UserRequestDTO;
+import letsCode.otherModels.requestUser;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +44,7 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
     }
 
-    public ResponseEntity<?> register( @RequestBody UserRequestDTO request, HttpServletResponse response){
+    public ResponseEntity<?> register(@RequestBody requestUser request, HttpServletResponse response){
 
         String userName = request.getUserName();
         String password = passwordEncoder.encode(request.getPassword());
@@ -73,14 +73,14 @@ public class AuthService {
     }
 
     public ResponseEntity<?> getAllResults(HttpServletRequest servletRequest){
-        List<PointEntity> results = pointService.getResults(myUserService.getUserByLogin(jwtTokenUtils.getUserName(jwtTokenUtils.getToken(servletRequest))).getId());
-        List<PointResponseDTO> mappedResults = mapToNeedResults(results);
+        List<MyPoint> results = pointService.getResults(myUserService.getUserByLogin(jwtTokenUtils.getUserName(jwtTokenUtils.getToken(servletRequest))).getId());
+        List<pesponsePoint> mappedResults = mapToNeedResults(results);
         return ResponseEntity.ok(mappedResults);
     }
 
-    private List<PointResponseDTO> mapToNeedResults(List<PointEntity> results){
+    private List<pesponsePoint> mapToNeedResults(List<MyPoint> results){
         return results.stream().map(pointEntity -> {
-            PointResponseDTO dto = new PointResponseDTO();
+            pesponsePoint dto = new pesponsePoint();
             dto.setX(pointEntity.getX());
             dto.setY(pointEntity.getY());
             dto.setR(pointEntity.getR());
@@ -91,7 +91,7 @@ public class AuthService {
         }).collect(Collectors.toList());
     }
 
-    public ResponseEntity<?> login( @RequestBody UserRequestDTO request, HttpServletRequest httpServletRequest, HttpServletResponse response){
+    public ResponseEntity<?> login(@RequestBody requestUser request, HttpServletRequest httpServletRequest, HttpServletResponse response){
         String userName = request.getUserName();
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, request.getPassword()));
@@ -107,7 +107,7 @@ public class AuthService {
         cookieToken.setMaxAge(3600);
         cookieToken.setHttpOnly(true);
         response.addCookie(cookieToken);
-        List<PointEntity> list = new ArrayList<>();
+        List<MyPoint> list = new ArrayList<>();
         //return new ResponseEntity<>(getAllResults(httpServletRequest), HttpStatus.OK);
         return ResponseEntity.ok(jwtTokenUtils.getLifeTime(token));
 

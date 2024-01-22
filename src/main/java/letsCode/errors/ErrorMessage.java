@@ -2,12 +2,12 @@ package letsCode.errors;
 
 //import java.util.Date;
 
-public class AppError {
+public class ErrorMessage {
     private int status;
     private String message;
    // private Date timestamp;
 
-    public AppError(int status, String message){
+    public ErrorMessage(int status, String message){
         this.status = status;
         this.message = message;
         //this.timestamp = new Date();
