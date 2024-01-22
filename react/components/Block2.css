@@ -11,12 +11,31 @@
 
 
 
+#x{
+    text-align: center;
+}
 
+#y{
+    text-align: center;
+}
 table{
     border: 1px;
     width: 600px;
     margin-left: 50px;
 }
 
+#r{
+    width:170px;
+    height: 22px;
+    margin-left: 2px;
+}
+#r{
+    text-align: center;
+    font-size: 18px;
+}
 
+.button{
+    width: 200px;
+    height: 75px;
+}
 

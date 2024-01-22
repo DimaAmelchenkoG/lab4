@@ -2,10 +2,6 @@ import React, { useRef, useEffect } from 'react';
 import './Block1.css'
 
 function Can({rString, artists, size}) {
-  console.log("CANVAS: " + artists);
-  console.log("Size: " + size);
-  console.log("rString: " + rString);
-  //console.log(rString);
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -13,14 +9,9 @@ function Can({rString, artists, size}) {
 
 
     function check(x, y, r){
-      //alert("x = " + x + "y= " + y + "r= " + r);
       x = Number(x);
       y = Number(y);
       r = Number(r);
-      //alert(x + y)
-      //alert(checkTriangle(x, y, r));
-      //alert(checkSquare(x, y, r));
-      //alert(checkCircle(x, y, r));
       if (checkCircle(x, y, r) || checkSquare(x, y, r) || checkTriangle(x, y, r)){
           return 'Hit';
       }
@@ -33,13 +24,10 @@ function Can({rString, artists, size}) {
   }
   
   function checkTriangle(x, y, r){
-      //System.out.println(x + " " + y + " " + r);
-      //System.out.println( (x >= 0 & y >= 0) & ((x*x + y*y) <= r*r));
       return (x >= 0 && y >= 0) && (y <= r && x <= r) && (x + y <= r);
   }
   
   function checkCircle(x, y, r){
-      //System.out.println((x <= 0 & y >= 0) & ((x*x + y*y) <= (r*r)/4));
       return (x <= 0 && y >= 0) && ((x*x + y*y) <= (r*r)/4);
   }
   
@@ -50,8 +38,6 @@ function Can({rString, artists, size}) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     var r = Number(rString)
-    //console.log(size);
-    //console.log(arstists);
  
 
     ctx.fillStyle = '#FFFFFF';
@@ -228,11 +214,7 @@ function Can({rString, artists, size}) {
       const xValue = Number(artists[i].x)
       const yValue = Number(artists[i].y)
       const rValue = Number(rString)
-      //var r = (table.rows[z].cells[2].innerHTML);
-      //var hit = (table.rows[z].cells[3].innerHTML);
-      //alert(check(x, y, r));
       const hit = check(xValue, yValue, rValue);
-      //   }
       if (hit === "Hit") {
           ctx.fillStyle = '#0000FF';
       } else {
@@ -241,170 +223,6 @@ function Can({rString, artists, size}) {
       ctx.fillRect((250 + 37.5 * xValue), (250 - 37.5 * yValue), 5, 5);
 
     };
-    
-    // Start drawing
-    /**
-    ctx.fillStyle = '#FFFFFF';
-    ctx.beginPath();
-    ctx.moveTo(0, 500);
-    ctx.lineTo(500, 500);
-    ctx.lineTo(500, 0);
-    ctx.lineTo(0, 0);
-    ctx.lineTo(0, 500);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#000000';
-    ctx.beginPath();
-    ctx.moveTo(0, 500);
-    ctx.lineTo(0, 0);
-    ctx.lineTo(500, 0);
-    ctx.lineTo(500, 500);
-    ctx.lineTo(0, 500);
-    ctx.stroke();
-
-
-    ctx.beginPath();
-    ctx.moveTo(0, 250);
-    ctx.lineTo(500, 250);
-    ctx.lineTo(0, 250);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250, 0);
-    ctx.lineTo(250, 500);
-    ctx.lineTo(250, 0);
-    ctx.stroke();
-
-    ctx.fillStyle = '#FF0000';
-    ctx.beginPath();
-    ctx.moveTo(250, 250);
-    ctx.lineTo(250, 250 - 37.5);
-    ctx.lineTo(250 + 37.5, 250);
-    ctx.lineTo(250, 250);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250, 250);
-    ctx.lineTo(250 - 18.75, 250);
-    ctx.lineTo(250 - 18.75, 250 + 37.5);
-    ctx.lineTo(250, 250 + 37.5);
-    ctx.lineTo(250, 250);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250, 250);
-    ctx.arc(250, 250, 18.75, -Math.PI / 2, Math.PI, true);
-    ctx.fill();
-    ctx.stroke();
-
-
-    ctx.beginPath();
-    ctx.moveTo(250+10, 250-37.5);
-    ctx.lineTo(250-10, 250-37.5);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250+10, 250-37.5 * 3);
-    ctx.lineTo(250-10, 250-37.5 * 3);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250+10, 250+37.5 );
-    ctx.lineTo(250-10, 250+37.5);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250+10, 250+37.5 * 3);
-    ctx.lineTo(250-10, 250+37.5 * 3);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250+10, 250 - 37.5*4);
-    ctx.lineTo(250-10, 250 - 37.5*4);
-    ctx.stroke();
-
-
-    ctx.beginPath();
-    ctx.moveTo(250+10, 250 - 37.5*2);
-    ctx.lineTo(250-10, 250 - 37.5*2);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250+10, 250 - 37.5*5);
-    ctx.lineTo(250-10, 250 - 37.5*5);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250+10, 250 + 37.5*5);
-    ctx.lineTo(250-10, 250 + 37.5*5);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250+10, 325);
-    ctx.lineTo(250-10, 325);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250+10, 400);
-    ctx.lineTo(250-10, 400);
-    ctx.stroke();
-
-
-
-    ctx.beginPath();
-    ctx.moveTo(250 + 37.5 * 4, 250+10);
-    ctx.lineTo(250 + 37.5 * 4, 250-10);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250 + 37.5 * 5, 250+10);
-    ctx.lineTo(250 + 37.5 * 5, 250-10);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250 + 37.5 * 3, 250+10);
-    ctx.lineTo(250 + 37.5 * 3, 250-10);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250 + 37.5 * 2, 250+10);
-    ctx.lineTo(250 + 37.5 * 2, 250-10);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250 + 37.5 * 1, 250+10);
-    ctx.lineTo(250 + 37.5 * 1, 250-10);
-    ctx.stroke();
-
-
-    ctx.beginPath();
-    ctx.moveTo(250 - 37.5 * 4, 250+10);
-    ctx.lineTo(250 - 37.5 * 4, 250-10);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250 - 37.5 * 5, 250+10);
-    ctx.lineTo(250 - 37.5 * 5, 250-10);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250 - 37.5 * 3, 250+10);
-    ctx.lineTo(250 - 37.5 * 3, 250-10);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250 - 37.5 * 2, 250+10);
-    ctx.lineTo(250 - 37.5 * 2, 250-10);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(250 - 37.5 * 1, 250+10);
-    ctx.lineTo(250 - 37.5 * 1, 250-10);
-    ctx.stroke();
-    */
   }, [rString, artists, size]);
 
   return (

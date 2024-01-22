@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
+import './RegistrationPage.css'
 
-export default function RegistrationPage({action}){
+export default function RegistrationPage({action, actionTable}){
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     
@@ -23,8 +24,10 @@ export default function RegistrationPage({action}){
             console.log("GOOD");
             console.log(response.data);
             action("main");
+            
         })
             .catch(error=>{
+                alert("Пользователь с таким именем уже существует");
                 console.log("BAD");
                 console.log(error.response.data);
                 console.log(error.response.status);
@@ -50,24 +53,50 @@ export default function RegistrationPage({action}){
             action("main");
         })
             .catch(error=>{
+                alert("Неправильный логин или пароль");
                 console.log("BAD")
                 console.log(error.response.data);
                 console.log(error.response.status);
             })
     }
     
+
+
+    let isYValid = false ;
+    let isXValid = false;
+    function checkALL(userName, password){
+        var str = (String(userName)).replace(",", ".");
+        isXValid =(str.trim().length !==0);
+
+        str = (String(password)).replace(",", ".");
+        isYValid = (str.trim().length !==0);
+    
+        console.log(isXValid, isYValid);
+        if (isXValid && isYValid){
+            return false;
+        } 
+        return true;
+    }
+
+    
+
     return(
         <div>
             <form>
-            <label htmlFor="login">Enter login:</label>
-            <input type="text" id="login" value={userName} onChange={(e) => setUserName(e.target.value)}/>
+            
+            <div className="labels">
+            <label id="text" className="text" htmlFor="login">Enter login:  </label>
+            <input className="label" placeholder="login" type="text" id="login" value={userName} onChange={(e) => setUserName(e.target.value)}/>
             <br/>
-            <label htmlFor="password">Enter password:</label>
-            <input type="text"  id="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+            <label className="text" htmlFor="password">Enter password:  </label>
+            <input className="label" placeholder="password" type="text"  id="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
             <br/>
+            </div>
 
-            <input type="submit" value="Registration" onClick={handleClickReg}/>
-            <input type="submit" value="Login" onClick={handleClickLogin}/>
+            <div className="buttons">
+            <input className="button" type="submit" disabled={checkALL(userName, password)} value="Registration" onClick={handleClickReg}/>
+            <input className="button" type="submit" disabled={checkALL(userName, password)} value="Login" onClick={handleClickLogin}/>
+            </div>
             </form>
         </div>
     );

@@ -1,48 +1,38 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Block2.css';
 import Can from './Can';
 
-//let arr = [];
-//let nextId = 0;
 export default function Block2({action}){
-    const [artists, setArtists] = useState([]);
 
-    //console.log("Blocj render");
+
+    const [artists, setArtists] = useState([]);
     const[x, setX] = useState('')
     const[y, setY] = useState('')
     const[r, setR] = useState('1')
 
-/**
-    const handleClick=(e)=>{
-        e.preventDefault()
-        const point={x, y, r}
-        console.log(point)
-        fetch("http://localhost:8080/lab4/mypoints/add",{
-            //mode: "no-cors",
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify(point)
-    
-      }).then(()=>{
-        console.log("New Student added")
-      })
-    }
 
-*/
-
+useEffect(() => {
+    axios.get("http://localhost:8080/lab4/mypoints/all", {
+        withCredentials: true,
+        headers: {
+            'Cache-Control': 'no-cache',
+        }
+    }).then(response =>{
+        console.log("ALL" + response.data);
+        setArtists(response.data);
+    })
+        .catch(error=>{
+            console.log(error.response.status);
+        })
+}, []);
 
 
 
     const handleClick=(e)=>{
         e.preventDefault()
-        //console.log("HEllo1")
         const point={x: x, y: y, r: r}
-        //setArtists([
-        //   ...artists, {id: nextId++, x: x, y: y, r: r}
-        //])
-        //console.log(artists);
-        axios.post("http://localhost:8080/lab4/mypoints/add", point, {
+        axios.post("http://localhost:8080/lab4/mypoints/addPoint", point, {
             withCredentials: true,
             headers: {
                 'Cache-Control': 'no-cache',
@@ -50,7 +40,8 @@ export default function Block2({action}){
         }).then(response =>{
             console.log("GOOD");
             console.log(response.data);
-            setArtists(response.data);
+            setArtists(response.data["body"])
+        console.log(artists);
         })
             .catch(error=>{
                 console.log("BAD")
@@ -60,10 +51,9 @@ export default function Block2({action}){
 
     const handleClickClean=(e)=>{
         e.preventDefault()
-        //console.log("HEllo1")
-        //const point={x: x, y: y, r: r}
+        console.log("CLEAN");
         setArtists([]);
-        axios.post("http://localhost:8080/lab4/mypoints/clean", {
+        axios.post("http://localhost:8080/lab4/mypoints/cleanTable", {},  {
             withCredentials: true,
             headers: {
                 'Cache-Control': 'no-cache',
@@ -71,7 +61,6 @@ export default function Block2({action}){
         }).then(response =>{
             console.log("GOOD");
             console.log(response.data);
-            //setArtists(response.data);
         })
             .catch(error=>{
                 console.log("BAD")
@@ -83,9 +72,6 @@ export default function Block2({action}){
         e.preventDefault()
 
         console.log("Logout");
-        //const user={userName, password}
-
-        //console.log(user);
         axios.post("http://localhost:8080/lab4/exit", {}, {
             withCredentials: true,
             headers: {
@@ -98,22 +84,51 @@ export default function Block2({action}){
         })
             .catch(error=>{
                 console.log("BAD LOGOUT");
-                //console.log(error.response.data);
-                // console.log(error.response.status);
             })
     }
 
+    let tableId = 0;
     let res = artists.map(function(item) {
-        return <tr key={item.id}>
-           <td>{item.id}</td>
+        tableId++;
+        return <tr key={tableId}>
+           <td>{tableId}</td>
            <td>{item.x}</td>
            <td>{item.y}</td>
            <td>{item.r}</td>
-           <td>{item.target}</td>
-           <td>{item.timeNow}</td>
-           <td>{item.programTime}</td>
+           <td>{item.result ? "Hit"  : "No hit"}</td>
+           <td>{item.currentTime}</td>
+           <td>{item.executionTime}</td>
         </tr>;
      });
+
+
+     let isYValid = false ;
+    let isXValid = false;
+
+
+
+
+
+
+function checkALL(xV, yV, rV){
+    console.log("CHECKK");
+    //return false;
+    var str = (String(xV)).replace(",", ".");
+    isXValid = Number(str) <= 5 && Number(str) >= -5 && !isNaN(str) && (str.trim().length !==0);
+
+    console.log(Number(str));
+    console.log(Number(str) < 5, Number(str) > -5,  !isNaN(str),  (str.trim().length !==0));
+     str = (String(yV)).replace(",", ".");
+    isYValid = Number(str) <= 4 && Number(str) >= -4 && !isNaN(str) && (str.trim().length !==0);
+
+    console.log(isXValid, isYValid);
+    if (isXValid && isYValid){
+        return false;
+    } 
+    return true;
+}
+
+
 
     return(
         <div>
@@ -131,13 +146,13 @@ export default function Block2({action}){
     <div id="inputs" className="line1">
 
             <form>
-            <label htmlFor="x">Enter x:</label>
-            <input type="text" id="x" value={x} onChange={(e) => setX(e.target.value)}/>
+            <label htmlFor="x">Enter x:  </label>
+            <input type="text" id="x" placeholder='[5 .. 5]' value={x} onChange={(e) => setX(e.target.value)}/>
             <br/>
-            <label htmlFor="y">Enter y:</label>
-            <input type="text"  id="y" value={y} onChange={(e) => setY(e.target.value)}/>
+            <label htmlFor="y">Enter y:  </label>
+            <input type="text"  id="y" placeholder='[4 .. 4]' value={y} onChange={(e) =>     setY(e.target.value)}/>
             <br/>
-            <label htmlFor="r">Enter r:</label>
+            <label htmlFor="r">Enter r:  </label>
             <select id="r" value={r} onChange={(e) => setR(e.target.value)}> 
                 <option>1</option> 
                 <option>2</option> 
@@ -146,9 +161,15 @@ export default function Block2({action}){
                 <option>5</option> 
             </select>
             <br/>
-            <input type="submit" value="Create" onClick={handleClick}/>
-            <input type="submit" value="CLean" onClick={handleClickClean}/>
-            <input type="submit" value="Logout" onClick={handleClickLogout}/>
+            <div>
+            <input className="button" id="Enter" value="Create" disabled={checkALL(x, y, r)} type="submit" onClick={handleClick}/>
+            </div>
+            <div>
+            <input className="button" type="submit" value="CLean" onClick={handleClickClean}/>
+            </div>
+            <div>
+            <input className="button" type="submit" value="Logout" onClick={handleClickLogout}/>
+            </div>
             </form>
     </div>
 
@@ -170,7 +191,6 @@ export default function Block2({action}){
             </tbody>
         </table>
     </div>
-    <p>{x + y + r}</p>
 </div>
 </div>
     );
