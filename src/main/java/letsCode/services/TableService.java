@@ -3,7 +3,7 @@ package letsCode.services;
 
 import jakarta.servlet.http.HttpServletRequest;
 import letsCode.otherModels.RequestPoint;
-import letsCode.otherModels.pesponsePoint;
+import letsCode.otherModels.PesponsePoint;
 import letsCode.models.MyPoint;
 import letsCode.models.User;
 import letsCode.utils.CheckTarget;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -37,10 +36,9 @@ public class TableService {
         this.jwtTokenUtils = jwtTokenUtils;
     }
 
-    public ResponseEntity<?> addPointToTable(@RequestBody RequestPoint requestDTO, HttpServletRequest servletRequest){
+    public ResponseEntity<?> addPoint(@RequestBody RequestPoint requestDTO, HttpServletRequest servletRequest){
         User user = myUserService.getUserByLogin(jwtTokenUtils.getUserName(jwtTokenUtils.getToken(servletRequest)));
         MyPoint myPoint = new MyPoint();
-        //DecimalFormat decimalFormat = new DecimalFormat("#.###");
         String x = (requestDTO.getX()).replace(",", ".");
         String y = "";
         try {
@@ -49,8 +47,7 @@ public class TableService {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         double r = requestDTO.getR();
-        //if(validateDots(x, y, r)) {
-        if (true){
+        if (Double.parseDouble(x) > -5 && Double.parseDouble(x) < 5 && Double.parseDouble(y) > -4 && Double.parseDouble(y) < 4){
             myPoint.setUserId(user.getId());
             myPoint.setX(x);
             myPoint.setY(y);
@@ -64,31 +61,31 @@ public class TableService {
             boolean result = CheckTarget.checkResult(requestDTO.getX().replace(",", "."), requestDTO.getY().replace(",", "."), requestDTO.getR());
             myPoint.setResult(result);
             myPoint.setExecutionTime(executionEnd);
-            pointService.addPointsResultToDB(myPoint, user.getId());
-            pesponsePoint pointResultResponseDTO = new pesponsePoint(x, y, r,
+            pointService.addPoint(myPoint, user.getId());
+            PesponsePoint pointResultResponseDTO = new PesponsePoint(x, y, r,
                     timeNow, executionEnd, result);
-            return new ResponseEntity<>(getAllResults(servletRequest), HttpStatus.CREATED);
+            return new ResponseEntity<>(getPoints(servletRequest), HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
-    public ResponseEntity<?> getAllResults(HttpServletRequest servletRequest){
+    public ResponseEntity<?> getPoints(HttpServletRequest servletRequest){
         List<MyPoint> results = pointService.getResults(myUserService.getUserByLogin(jwtTokenUtils.getUserName(jwtTokenUtils.getToken(servletRequest))).getId());
-        List<pesponsePoint> mappedResults = mapToNeedResults(results);
+        List<PesponsePoint> mappedResults = getListOfPoints(results);
         return ResponseEntity.ok(mappedResults);
     }
 
 
-    public ResponseEntity<?> deleteDots(HttpServletRequest servletRequest){
-        pointService.deleteResults(myUserService.getUserByLogin(jwtTokenUtils.getUserName(jwtTokenUtils.getToken(servletRequest))).getId());
+    public ResponseEntity<?> delete(HttpServletRequest servletRequest){
+        pointService.delete(myUserService.getUserByLogin(jwtTokenUtils.getUserName(jwtTokenUtils.getToken(servletRequest))).getId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
 
-    private List<pesponsePoint> mapToNeedResults(List<MyPoint> results){
+    private List<PesponsePoint> getListOfPoints(List<MyPoint> results){
         return results.stream().map(pointEntity -> {
-            pesponsePoint dto = new pesponsePoint();
+            PesponsePoint dto = new PesponsePoint();
             dto.setX(pointEntity.getX());
             dto.setY(pointEntity.getY());
             dto.setR(pointEntity.getR());
@@ -97,11 +94,6 @@ public class TableService {
             dto.setResult(pointEntity.isResult());
             return dto;
         }).collect(Collectors.toList());
-    }
-
-    private boolean validateDots(double x, double y, double r){
-        return (x >= -5 && x <= 3) && (y>=-3 && y <=3) && (r>0);
-
     }
 
 }

@@ -30,19 +30,19 @@ public class PointController {
     @GetMapping("/all")
     public ResponseEntity<?> all(HttpServletRequest servletRequest){
         System.out.println("ADD DOT");
-        return tableService.getAllResults(servletRequest);
+        return tableService.getPoints(servletRequest);
     }
 
     @PostMapping("addPoint")
     public ResponseEntity<?> addPointToTable(@RequestBody RequestPoint requestDTO, HttpServletRequest servletRequest){
         System.out.println("ADD DOT");
-        return tableService.addPointToTable(requestDTO, servletRequest);
+        return tableService.addPoint(requestDTO, servletRequest);
     }
 
     @PostMapping("/cleanTable")
     public ResponseEntity<?> deleteDots(HttpServletRequest servletRequest){
         System.out.println("CLEAN");
-        return tableService.deleteDots(servletRequest);
+        return tableService.delete(servletRequest);
     }
 
     @GetMapping()

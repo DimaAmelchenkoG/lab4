@@ -2,7 +2,7 @@ package letsCode.otherModels;
 
 import java.util.Objects;
 
-public class pesponsePoint {
+public class PesponsePoint {
     private String x;
     private String y;
     private double r;
@@ -12,8 +12,8 @@ public class pesponsePoint {
 
     private boolean result;
 
-    public pesponsePoint(){}
-    public pesponsePoint(String x, String y, double r, String currentTime, long executionTime, boolean result) {
+    public PesponsePoint(){}
+    public PesponsePoint(String x, String y, double r, String currentTime, long executionTime, boolean result) {
         this.x = x;
         this.y = y;
         this.r = r;
@@ -75,7 +75,7 @@ public class pesponsePoint {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        pesponsePoint that = (pesponsePoint) o;
+        PesponsePoint that = (PesponsePoint) o;
         return Objects.equals(x, that.x) && Objects.equals(y, that.y) && Double.compare(r, that.r) == 0 && executionTime == that.executionTime && result == that.result && Objects.equals(currentTime, that.currentTime);
     }
 

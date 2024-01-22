@@ -3,18 +3,18 @@ package letsCode.otherModels;
 
 import java.util.Objects;
 
-public class requestUser {
+public class RequestUser {
 
     private String userName;
 
     private String password;
 
-    public requestUser(String userName, String password) {
+    public RequestUser(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
 
-    public requestUser() {
+    public RequestUser() {
     }
 
     public String getUserName() {
@@ -37,7 +37,7 @@ public class requestUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        requestUser that = (requestUser) o;
+        RequestUser that = (RequestUser) o;
         return Objects.equals(userName, that.userName) && Objects.equals(password, that.password);
     }
 

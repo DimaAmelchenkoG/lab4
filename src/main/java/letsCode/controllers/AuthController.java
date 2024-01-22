@@ -8,7 +8,7 @@ import letsCode.models.MyPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import letsCode.otherModels.requestUser;
+import letsCode.otherModels.RequestUser;
 import letsCode.services.AuthService;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody requestUser request, HttpServletResponse response){
+    public ResponseEntity<?> register(@RequestBody RequestUser request, HttpServletResponse response){
         System.out.println("REGISTER");
         //return new ResponseEntity<>(2, HttpStatus.OK);
         return authService.register(request, response);
@@ -37,7 +37,7 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody requestUser request, HttpServletRequest httpServletRequest, HttpServletResponse response){
+    public ResponseEntity<?> login(@RequestBody RequestUser request, HttpServletRequest httpServletRequest, HttpServletResponse response){
         System.out.println("login");
         List<MyPoint> list = new ArrayList<>();
         MyPoint point = new MyPoint();

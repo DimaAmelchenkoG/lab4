@@ -2,10 +2,12 @@ package letsCode.errors;
 
 //import java.util.Date;
 
+import java.util.Date;
+
 public class ErrorMessage {
     private int status;
     private String message;
-   // private Date timestamp;
+    private Date timestamp;
 
     public ErrorMessage(int status, String message){
         this.status = status;
@@ -27,5 +29,13 @@ public class ErrorMessage {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }

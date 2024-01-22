@@ -33,13 +33,9 @@ public class UserServiceImpl implements UserDetailsService, MyUserService {
         System.out.println("LOAD BY USERNAME");
         letsCode.models.User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("user not found"));
 
-        return new User(user.getUsername(), user.getPassword(), mapToList(user.getRoles()));
+        return new User(user.getUsername(), user.getPassword(), user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList()));
     }
 
-    private Collection<GrantedAuthority> mapToList(List<Role> roles){
-        Collection<GrantedAuthority> rolesCollection = roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-        return rolesCollection;
-    }
 
     @Transactional
     @Override
@@ -60,7 +56,7 @@ public class UserServiceImpl implements UserDetailsService, MyUserService {
 
     @Transactional
     @Override
-    public void addUserToDB(letsCode.models.User user){
+    public void addUser(letsCode.models.User user){
         System.out.println("Hello");
         Role role = new Role();
         role.setName("ROLE_USER");

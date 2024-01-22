@@ -10,5 +10,5 @@ public interface MyUserService extends UserDetailsService {
 
     boolean findByLogin(String userName);
     User getUserByLogin(String userName);
-    void addUserToDB(User user);
+    void addUser(User user);
 }

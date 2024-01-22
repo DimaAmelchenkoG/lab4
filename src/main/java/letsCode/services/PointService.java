@@ -28,13 +28,13 @@ public class PointService {
     }
 
     @Transactional
-    public void addPointsResultToDB(MyPoint results, Long userId){
+    public void addPoint(MyPoint results, Long userId){
         results.setUserId(userId);
         pointRepository.save(results);
     }
 
     @Transactional
-    public int deleteResults(Long userId){
+    public int delete(Long userId){
         int countDelete = pointRepository.deleteAllByUserId(userId);
         if(countDelete>0){
             return countDelete;

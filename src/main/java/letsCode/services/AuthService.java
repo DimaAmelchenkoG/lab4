@@ -4,7 +4,7 @@ package letsCode.services;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import letsCode.otherModels.pesponsePoint;
+import letsCode.otherModels.PesponsePoint;
 import letsCode.models.MyPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import letsCode.utils.JwtTokenUtils;
 import letsCode.models.User;
-import letsCode.otherModels.requestUser;
+import letsCode.otherModels.RequestUser;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +44,7 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
     }
 
-    public ResponseEntity<?> register(@RequestBody requestUser request, HttpServletResponse response){
+    public ResponseEntity<?> register(@RequestBody RequestUser request, HttpServletResponse response){
 
         String userName = request.getUserName();
         String password = passwordEncoder.encode(request.getPassword());
@@ -53,11 +53,11 @@ public class AuthService {
             User user = new User();
             user.setUsername(userName);
             user.setPassword(password);
-            myUserService.addUserToDB(user);
+            myUserService.addUser(user);
             String token = jwtTokenUtils.generateToken(myUserService.loadUserByUsername(userName));
             Cookie cookieToken = new Cookie("Token", token);
             cookieToken.setPath("/");
-            cookieToken.setMaxAge(3600);
+            cookieToken.setMaxAge(4000);
             cookieToken.setHttpOnly(true);
             response.addCookie(cookieToken);
             //return new ResponseEntity<>(getAllResults((HttpServletRequest) request), HttpStatus.CREATED);
@@ -72,26 +72,9 @@ public class AuthService {
 
     }
 
-    public ResponseEntity<?> getAllResults(HttpServletRequest servletRequest){
-        List<MyPoint> results = pointService.getResults(myUserService.getUserByLogin(jwtTokenUtils.getUserName(jwtTokenUtils.getToken(servletRequest))).getId());
-        List<pesponsePoint> mappedResults = mapToNeedResults(results);
-        return ResponseEntity.ok(mappedResults);
-    }
 
-    private List<pesponsePoint> mapToNeedResults(List<MyPoint> results){
-        return results.stream().map(pointEntity -> {
-            pesponsePoint dto = new pesponsePoint();
-            dto.setX(pointEntity.getX());
-            dto.setY(pointEntity.getY());
-            dto.setR(pointEntity.getR());
-            dto.setCurrentTime(pointEntity.getCurrentTime());
-            dto.setExecutionTime(pointEntity.getExecutionTime());
-            dto.setResult(pointEntity.isResult());
-            return dto;
-        }).collect(Collectors.toList());
-    }
 
-    public ResponseEntity<?> login(@RequestBody requestUser request, HttpServletRequest httpServletRequest, HttpServletResponse response){
+    public ResponseEntity<?> login(@RequestBody RequestUser request, HttpServletRequest httpServletRequest, HttpServletResponse response){
         String userName = request.getUserName();
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, request.getPassword()));
@@ -104,7 +87,7 @@ public class AuthService {
         String token = jwtTokenUtils.generateToken(myUserService.loadUserByUsername(userName));
         Cookie cookieToken = new Cookie("Token", token);
         cookieToken.setPath("/");
-        cookieToken.setMaxAge(3600);
+        cookieToken.setMaxAge(4000);
         cookieToken.setHttpOnly(true);
         response.addCookie(cookieToken);
         List<MyPoint> list = new ArrayList<>();
