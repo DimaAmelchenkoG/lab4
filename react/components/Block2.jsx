@@ -6,7 +6,7 @@ import Can from './Can';
 export default function Block2({action}){
 
 
-    const [artists, setArtists] = useState([]);
+    const [collection, setCollection] = useState([]);
     const[x, setX] = useState('')
     const[y, setY] = useState('')
     const[r, setR] = useState('1')
@@ -19,8 +19,8 @@ useEffect(() => {
             'Cache-Control': 'no-cache',
         }
     }).then(response =>{
-        console.log("ALL" + response.data);
-        setArtists(response.data);
+        console.log(response.data);
+        setCollection(response.data);
     })
         .catch(error=>{
             console.log(error.response.status);
@@ -38,32 +38,26 @@ useEffect(() => {
                 'Cache-Control': 'no-cache',
             }
         }).then(response =>{
-            console.log("GOOD");
             console.log(response.data);
-            setArtists(response.data["body"])
-        console.log(artists);
+            setCollection(response.data["body"])
         })
             .catch(error=>{
-                console.log("BAD")
                 console.log(error.response.status);
             })
     }
 
     const handleClickClean=(e)=>{
         e.preventDefault()
-        console.log("CLEAN");
-        setArtists([]);
+        setCollection([]);
         axios.post("http://localhost:8080/lab4/mypoints/cleanTable", {},  {
             withCredentials: true,
             headers: {
                 'Cache-Control': 'no-cache',
             }
         }).then(response =>{
-            console.log("GOOD");
             console.log(response.data);
         })
             .catch(error=>{
-                console.log("BAD")
                 console.log(error.response.status);
             })
     }
@@ -78,7 +72,6 @@ useEffect(() => {
                 'Cache-Control': 'no-cache',
             }
         }).then(response =>{
-            console.log("GOOD");
             console.log(response.data);
             action("reg");
         })
@@ -88,7 +81,7 @@ useEffect(() => {
     }
 
     let tableId = 0;
-    let res = artists.map(function(item) {
+    let res = collection.map(function(item) {
         tableId++;
         return <tr key={tableId}>
            <td>{tableId}</td>
@@ -97,7 +90,7 @@ useEffect(() => {
            <td>{item.r}</td>
            <td>{item.result ? "Hit"  : "No hit"}</td>
            <td>{item.currentTime}</td>
-           <td>{item.executionTime}</td>
+           <td>{Number(item.executionTime)/1000000}</td>
         </tr>;
      });
 
@@ -111,17 +104,12 @@ useEffect(() => {
 
 
 function checkALL(xV, yV, rV){
-    console.log("CHECKK");
-    //return false;
+
     var str = (String(xV)).replace(",", ".");
     isXValid = Number(str) <= 5 && Number(str) >= -5 && !isNaN(str) && (str.trim().length !==0);
-
-    console.log(Number(str));
-    console.log(Number(str) < 5, Number(str) > -5,  !isNaN(str),  (str.trim().length !==0));
      str = (String(yV)).replace(",", ".");
     isYValid = Number(str) <= 4 && Number(str) >= -4 && !isNaN(str) && (str.trim().length !==0);
 
-    console.log(isXValid, isYValid);
     if (isXValid && isYValid){
         return false;
     } 
@@ -133,8 +121,7 @@ function checkALL(xV, yV, rV){
     return(
         <div>
         <div id="N1" className="line">
-            {console.log("BEFORE" + artists)}
-        <Can rString={r} artists={artists} size={artists.length}/>
+        <Can rString={r} collection={collection} size={collection.length}/>
 
 
         <div id="R1" className="R">R</div>
@@ -183,7 +170,7 @@ function checkALL(xV, yV, rV){
                 <th> R </th>
                 <th> Target </th>
                 <th> Time now </th>
-                <th> Program time </th>
+                <th> Program time (s)</th>
                 </tr>
             </thead>
             <tbody>

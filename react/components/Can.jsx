@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import './Block1.css'
 
-function Can({rString, artists, size}) {
+function Can({rString, collection, size}) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -211,8 +211,8 @@ function Can({rString, artists, size}) {
     ctx.stroke();
 
     for (let i=0;i<size;i++) {
-      const xValue = Number(artists[i].x)
-      const yValue = Number(artists[i].y)
+      const xValue = Number(collection[i].x)
+      const yValue = Number(collection[i].y)
       const rValue = Number(rString)
       const hit = check(xValue, yValue, rValue);
       if (hit === "Hit") {
@@ -223,7 +223,7 @@ function Can({rString, artists, size}) {
       ctx.fillRect((250 + 37.5 * xValue), (250 - 37.5 * yValue), 5, 5);
 
     };
-  }, [rString, artists, size]);
+  }, [rString, collection, size]);
 
   return (
     <canvas ref={canvasRef}  width="500" height="500" id='canvas'/>
